@@ -5,9 +5,14 @@ file with you at recitation.
 
 ## 1. Deployed URL and instance id
 
-<!-- The ServiceUrl and InstanceId outputs. Paste both here every time
-describe-stacks prints them, for the healthy deploy and for scenario 2. Both
-change on every recreate, and you will need them for curls and sessions. -->
+<!-- 
+-------------------------------------------------------------------------
+|                            DescribeStacks                             |
++------------+----------------------------------------------------------+
+|  InstanceId|  i-011441c11fdf5177f                                     |
+|  ServiceUrl|  http://ec2-34-229-96-188.compute-1.amazonaws.com:8080   |
++------------+----------------------------------------------------------+
+-->
 
 ## 2. External health check
 
@@ -15,6 +20,8 @@ Run the check from your own machine, not from the instance. Paste the command an
 response.
 
 ```
+curl http://ec2-34-229-96-188.compute-1.amazonaws.com:8080/api/health
+{"status":"ok"}%               
 
 ```
 
@@ -23,7 +30,7 @@ response.
 Three or four sentences, your own words. What compute, what network access, and what
 glue made the service start.
 
-<!-- Your answer here. -->
+The template created a t3.micro EC2 instance running Amazon Linux 2023 to serve as the compute host for the application. It configured a Security Group to provide network access by opening port 8080 for the service's external health check and port 22 for SSH fallback access from the internet. Finally, it used a UserData bash script as the "glue" to automatically install Docker, pull the lab's container image, and start the service on boot while mapping the network ports.
 
 ## 4. Scenario 2 diagnosis
 

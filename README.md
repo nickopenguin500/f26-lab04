@@ -1,4 +1,5 @@
 # Lab 4 Starter: Deploy lab04-service
+Models/Tools: Gemini Pro
 
 `lab04-service` is a small HTTP service with two routes. `GET /api/health` returns
 `{"status":"ok"}` and `GET /api/rooms` returns a fixed list of rooms. It is already
