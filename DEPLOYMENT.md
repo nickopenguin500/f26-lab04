@@ -12,12 +12,12 @@ file with you at recitation.
 |  InstanceId|  i-011441c11fdf5177f                                     |
 |  ServiceUrl|  http://ec2-34-229-96-188.compute-1.amazonaws.com:8080   |
 +------------+----------------------------------------------------------+
------------------------------------------------------------------------
-|                           DescribeStacks                            |
-+------------+--------------------------------------------------------+
-|  InstanceId|  i-07f7a835b08560506                                   |
-|  ServiceUrl|  http://ec2-3-80-40-180.compute-1.amazonaws.com:8080   |
-+------------+--------------------------------------------------------+
+------------------------------------------------------------------------
+|                            DescribeStacks                            |
++------------+---------------------------------------------------------+
+|  InstanceId|  i-02fb7e369d67332ef                                    |
+|  ServiceUrl|  http://ec2-3-89-119-122.compute-1.amazonaws.com:8080   |
++------------+---------------------------------------------------------+
 ------------------------------------------------------------------------
 |                            DescribeStacks                            |
 +------------+---------------------------------------------------------+
@@ -49,8 +49,8 @@ The template created a t3.micro EC2 instance running Amazon Linux 2023 to serve 
 **The failing curl** (command and output):
 
 ```
-curl http://<new-dns>:8080/api/health
-zsh: no such file or directory: new-dns
+curl http://ec2-3-89-119-122.compute-1.amazonaws.com:8080/api/health
+curl: (28) Failed to connect to ec2-3-89-119-122.compute-1.amazonaws.com port 8080 after 75028 ms: Couldn't connect to server
 
 ```
 
@@ -62,7 +62,7 @@ lab04-service listening on 9090
 
 **What was wrong, and the fix you applied:**
 
-<!-- The log line lab04-service listening on 9090 revealed the application was listening on port 9090, while docker ps showed the container was only configured to receive traffic on port 8080. I fixed this by deleting the stack and redeploying with the healthy parameters (infra/params-healthy.json) so the application listens on the correct port. -->
+The log line lab04-service listening on 9090 revealed the application was listening on port 9090, while docker ps showed the container was only configured to receive traffic on port 8080. I fixed this by deleting the stack and redeploying with the healthy parameters (infra/params-healthy.json) so the application listens on the correct port.
 
 **The healthy curl after the fix:**
 
