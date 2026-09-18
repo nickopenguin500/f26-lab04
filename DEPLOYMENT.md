@@ -12,6 +12,18 @@ file with you at recitation.
 |  InstanceId|  i-011441c11fdf5177f                                     |
 |  ServiceUrl|  http://ec2-34-229-96-188.compute-1.amazonaws.com:8080   |
 +------------+----------------------------------------------------------+
+-----------------------------------------------------------------------
+|                           DescribeStacks                            |
++------------+--------------------------------------------------------+
+|  InstanceId|  i-07f7a835b08560506                                   |
+|  ServiceUrl|  http://ec2-3-80-40-180.compute-1.amazonaws.com:8080   |
++------------+--------------------------------------------------------+
+------------------------------------------------------------------------
+|                            DescribeStacks                            |
++------------+---------------------------------------------------------+
+|  InstanceId|  i-014c1e1176ae5d5f0                                    |
+|  ServiceUrl|  http://ec2-54-91-83-124.compute-1.amazonaws.com:8080   |
++------------+---------------------------------------------------------+
 -->
 
 ## 2. External health check
@@ -37,23 +49,26 @@ The template created a t3.micro EC2 instance running Amazon Linux 2023 to serve 
 **The failing curl** (command and output):
 
 ```
+curl http://<new-dns>:8080/api/health
+zsh: no such file or directory: new-dns
 
 ```
 
 **The log line that told you what was wrong:**
 
 ```
-
+lab04-service listening on 9090
 ```
 
 **What was wrong, and the fix you applied:**
 
-<!-- One or two sentences. Say what you changed and where you changed it. -->
+<!-- The log line lab04-service listening on 9090 revealed the application was listening on port 9090, while docker ps showed the container was only configured to receive traffic on port 8080. I fixed this by deleting the stack and redeploying with the healthy parameters (infra/params-healthy.json) so the application listens on the correct port. -->
 
 **The healthy curl after the fix:**
 
 ```
-
+curl http://ec2-54-91-83-124.compute-1.amazonaws.com:8080/api/health
+{"status":"ok"}%  
 ```
 
 ## 5. Teardown proof
@@ -61,5 +76,7 @@ The template created a t3.micro EC2 instance running Amazon Linux 2023 to serve 
 Paste the delete output, or describe the console evidence that the resources are gone.
 
 ```
+aws cloudformation describe-stacks --stack-name lab04-service
 
+aws: [ERROR]: An error occurred (ValidationError) when calling the DescribeStacks operation: Stack with id lab04-service does not exist
 ```
